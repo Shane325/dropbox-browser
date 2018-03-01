@@ -30,7 +30,7 @@
                         Welcome to Dropbox Browser
                     </div>
                     <div class="panel-body text-center">
-                      <p>Your Dropbox account is <span ng-hide="vm.token">not</span> connected.</p>
+                        <p>Your Dropbox account is <span ng-hide="vm.token">not</span>                            connected.</p>
                         <button type="button" class="btn btn-primary btn-lg" ng-click="vm.auth()" ng-hide="vm.token">Connect Dropbox</button>
                     </div>
                 </div>
@@ -85,6 +85,11 @@
                         Dropbox Files and Folders
                     </div>
                     <div class="panel-body">
+                        <ol class="breadcrumb">
+                            <li>
+                                <a href="#" ng-click="vm.getFilesAndFolders(vm.token, '')">Home</a>
+                            </li>
+                        </ol>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -92,13 +97,21 @@
                                         File/Folder
                                     </th>
                                     <th>Name</th>
+                                    <th>Action</th>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="file in vm.filesAndFolders">
                                         <td class="text-center">
-                                            <i class="glyphicon glyphicon-folder-open"></i>
+                                            <i ng-show="file['.tag'] === 'folder'" class="fa fa-folder-open"></i>
+                                            <i ng-show="file['.tag'] === 'file'" class="fa fa-file-o"></i>
                                         </td>
                                         <td ng-bind="file.name"></td>
+                                        <td>
+                                            <button ng-show="file['.tag'] === 'folder'" type="button" class="btn btn-primary"
+                                                ng-click="vm.getFilesAndFolders(vm.token, file.path_lower)">Open</button>
+                                            <button ng-show="file['.tag'] === 'file'" type="button" class="btn btn-primary">View</button>
+                                            <button ng-show="file['.tag'] === 'file'" type="button" class="btn btn-primary">Download</button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -107,12 +120,31 @@
                 </div>
             </div>
         </div>
+        <div ng-show="vm.token" class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Dropbox Analytics
+                    </div>
+                    <div class="panel-body">
+                        <p>You have used <span ng-bind="vm.convertBytesToGB(vm.usage.used)"></span> of
+                            <span ng-bind="vm.convertBytesToGB(vm.usage.allocation.allocated)"></span></p>
+                        <canvas id="doughnut" class="chart chart-doughnut"
+  chart-data="[vm.usage.used, vm.usage.allocation.allocated]" chart-labels="['Used', 'Allocated']">
+                        </canvas> 
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Script files-->
+    <script src="https://use.fontawesome.com/be4811f8d5.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.1/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.1/angular-route.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-chart.js/1.1.1/angular-chart.js"></script>
     <script src="core.js"></script>
 
 </body>

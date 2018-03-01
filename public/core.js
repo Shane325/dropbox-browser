@@ -1,6 +1,6 @@
 'use strict';
 
-var myApp = angular.module('myApp', ['ngRoute']);
+var myApp = angular.module('myApp', ['ngRoute', 'chart.js']);
 
 myApp.controller('mainController', mainController);
 
@@ -11,12 +11,23 @@ function mainController($http, $window, $location) {
 
     var vm = this;
     vm.auth = auth;
+    vm.getFilesAndFolders = getFilesAndFolders;
+    vm.convertBytesToGB = convertBytesToGB;
 
     init()
 
     // init function
     function init() {
         getAccessTokenFromUrl();
+    }
+
+    function convertBytesToGB(bytes, decimalPoint) {
+        if (bytes == 0) return '0 Bytes';
+        var k = 1000,
+            dm = decimalPoint || 2,
+            sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+            i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
     function getAccount(token) {
@@ -30,14 +41,26 @@ function mainController($http, $window, $location) {
             });
     }
 
-    function getFilesAndFolders(token) {
+    function getFilesAndFolders(token, path) {
         $http.get('/api/dropbox/getFilesAndFolders', {
+                params: {
+                    token: token,
+                    path: path
+                }
+            })
+            .success(function(response) {
+                vm.filesAndFolders = response;
+            });
+    }
+
+    function getUsage(token) {
+        $http.get('/api/dropbox/getUsage', {
                 params: {
                     token: token
                 }
             })
             .success(function(response) {
-                vm.filesAndFolders = response;
+                vm.usage = response;
             });
     }
 
@@ -54,7 +77,8 @@ function mainController($http, $window, $location) {
         if (url.indexOf('=') !== -1) {
             vm.token = url.split('=')[1].split('&')[0]
             getAccount(vm.token);
-            getFilesAndFolders(vm.token);
+            getFilesAndFolders(vm.token, '');
+            getUsage(vm.token);
         }
     }
 

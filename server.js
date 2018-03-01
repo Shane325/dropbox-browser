@@ -68,10 +68,11 @@ app.get('/api/dropbox/getAccount', function(req, res) {
 
 app.get('/api/dropbox/getFilesAndFolders', function(req, res) {
     var token = req.query.token;
+    var path = req.query.path || '';
     var dbx = getDropboxToken(token);
 
     dbx.filesListFolder({
-            path: ''
+            path: path 
         })
         .then(function(response) {
             res.json(response.entries);
@@ -86,6 +87,19 @@ app.get('/api/dropbox/auth', function(req, res) {
 
     var authUrl = dbx.getAuthenticationUrl(DOMAIN)
     res.send(authUrl);
+});
+
+app.get('/api/dropbox/getUsage', function(req, res) {
+  var token = req.query.token;
+  var dbx = getDropboxToken(token);
+
+  dbx.usersGetSpaceUsage()
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 });
 
 // Create an instance of Dropbox with the provided clientId
