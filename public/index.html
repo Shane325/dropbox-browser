@@ -1,0 +1,120 @@
+<!doctype html>
+<html ng-app="myApp">
+
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dropbox Browser</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body ng-controller="mainController as vm">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 margin-top-30">
+                <div class="panel panel-default min-height-220">
+                    <div class="panel-heading">
+                        Welcome to Dropbox Browser
+                    </div>
+                    <div class="panel-body text-center">
+                      <p>Your Dropbox account is <span ng-hide="vm.token">not</span> connected.</p>
+                        <button type="button" class="btn btn-primary btn-lg" ng-click="vm.auth()" ng-hide="vm.token">Connect Dropbox</button>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="vm.token" class="col-md-6 margin-top-30">
+                <div class="panel panel-default min-height-220">
+                    <div class="panel-heading">
+                        Dropbox Account
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img class="img-circle" ng-src="{{ vm.account.profile_photo_url }}" alt="profile image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <strong>First name</strong>
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{ vm.account.name.given_name}}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <strong>Last name</strong>
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{ vm.account.name.surname }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <strong>Email</strong>
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{ vm.account.email }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="vm.token" class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Dropbox Files and Folders
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <th class="text-center">
+                                        File/Folder
+                                    </th>
+                                    <th>Name</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="file in vm.filesAndFolders">
+                                        <td class="text-center">
+                                            <i class="glyphicon glyphicon-folder-open"></i>
+                                        </td>
+                                        <td ng-bind="file.name"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script files-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.1/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.1/angular-route.js"></script>
+    <script src="core.js"></script>
+
+</body>
+
+</html>

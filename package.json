@@ -1,0 +1,24 @@
+{
+  "name": "dropbox-browser",
+  "version": "1.0.0",
+  "description": "Angular application to connect to and browse your dropbox account.",
+  "main": "server.js",
+  "author": "Shane Barry",
+  "scripts": {
+    "start": "node server.js",
+    "prod": "DOMAIN=https://boiling-atoll-43861.herokuapp.com/ node server.js"
+  },
+  "engines": {
+    "node": "6.9.1"
+  },
+  "dependencies": {
+    "body-parser": "~1.5.2",
+    "cors": "^2.8.4",
+    "dropbox": "^4.0.0",
+    "es6-promise": "^4.2.4",
+    "express": "~4.7.2",
+    "isomorphic-fetch": "^2.2.1",
+    "method-override": "~2.1.2",
+    "morgan": "~1.2.2"
+  }
+}
