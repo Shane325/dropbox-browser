@@ -1,6 +1,6 @@
 # Dropbox Browser 
 
-Dropbox Browser is a simple web application built using [Node.js](http://www.nodejs.org) and [AngularJS](http://angularjs.org). Dropbox Browser lets you connect to your dropbox account and view/browse through your files and folders. DB also shows you some analytics about your dropbox account.
+Dropbox Browser is a simple web application built using [Node.js](http://www.nodejs.org) and [AngularJS](http://angularjs.org). Dropbox Browser lets you connect to your dropbox account and view/browse through your files and folders. Dropbox Browser also shows you some analytics about your dropbox account.
 
 Live demo: [https://boiling-atoll-43861.herokuapp.com](https://boiling-atoll-43861.herokuapp.com)
 
@@ -44,16 +44,17 @@ And here are some areas I would improve:
 * Error handling on both client and server. Right now I'm just logging errors to the console.
 * Caching using Redis.
 * Testing using Karma on the client side and Mocha on the server side.
+* Use a task runner like Gulp to automate the testing and build.
 
 ## Deployment 
 
-The app is deployed on Heroku's free tier. Upon deployment Heroku read the `Procfile` in the code base which contains the following command that runs in production:
+The app is deployed on Heroku's free tier. Upon deployment Heroku reads the `Procfile` in the code base which contains the following command that runs in production:
 
 ```bash
 $ npm run prod
 ```
 
-This command runs node and passes is the production domain name as an environment variable. This is needed for the dropbox authentication flow. 
+This command runs node and passes in the production domain name as an environment variable. This is needed for the dropbox authentication redirect. 
 
 ## Technology Used
 
