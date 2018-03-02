@@ -1,6 +1,7 @@
 (function() {
     'use strict';
 
+
     var myApp = angular.module('myApp', ['ngRoute', 'chart.js']);
 
     myApp.controller('mainController', mainController);
@@ -13,6 +14,7 @@
         var vm = this;
 
         vm.auth = auth;
+        vm.getFilesAndFolders = getFilesAndFolders;
         vm.convertBytesToGB = convertBytesToGB;
 
         init()
