@@ -129,8 +129,8 @@
                     <div class="panel-body">
                         <p>You have used <span ng-bind="vm.convertBytesToGB(vm.usage.used)"></span>                            of
                             <span ng-bind="vm.convertBytesToGB(vm.usage.allocation.allocated)"></span></p>
-                        <canvas id="doughnut" class="chart chart-doughnut" chart-data="[vm.usage.used, vm.usage.allocation.allocated]"
-                            chart-labels="['Used', 'Allocated']" chart-colors="['#f41624', '#01a522']">
+                        <canvas id="doughnut" class="chart chart-doughnut" chart-data="[vm.usage.allocation.allocated, vm.usage.used]"
+                            chart-labels="['Allocated', 'Used']" chart-colors="['#f41624', '#01a522']">
                         </canvas>
                     </div>
                 </div>
