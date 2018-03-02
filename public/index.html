@@ -127,11 +127,11 @@
                         Dropbox Analytics
                     </div>
                     <div class="panel-body">
-                        <p>You have used <span ng-bind="vm.convertBytesToGB(vm.usage.used)"></span> of
+                        <p>You have used <span ng-bind="vm.convertBytesToGB(vm.usage.used)"></span>                            of
                             <span ng-bind="vm.convertBytesToGB(vm.usage.allocation.allocated)"></span></p>
-                        <canvas id="doughnut" class="chart chart-doughnut"
-  chart-data="[vm.usage.used, vm.usage.allocation.allocated]" chart-labels="['Used', 'Allocated']">
-                        </canvas> 
+                        <canvas id="doughnut" class="chart chart-doughnut" chart-data="[vm.usage.used, vm.usage.allocation.allocated]"
+                            chart-labels="['Used', 'Allocated']" chart-colors="['#f41624', '#01a522']">
+                        </canvas>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 /**
  * Main server.js file.
+ * Module dependencies
  */
 var express = require('express');
 var app = express();
@@ -16,6 +17,7 @@ var PORT = process.env.PORT || 8080;
 
 /**
  * App configuration
+ *
  */
 
 // Set the public files location
@@ -33,11 +35,9 @@ app.use(bodyParser.json({
     type: 'application/vnd.api+json'
 }));
 app.use(methodOverride());
-app.use(cors());
 
-/**
- * App routes
- */
+// Enable CORS
+app.use(cors());
 
 // Main route that serves index.html
 app.get('/', function(req, res) {
@@ -49,10 +49,11 @@ app.listen(PORT);
 console.log('App listening on port 8080');
 
 /**
- * Routes
+ * Application routes
+ * TODO: Move routes to there own route.js file
  */
 
-// Return dropbox account
+// Return account information
 app.get('/api/dropbox/getAccount', function(req, res) {
     var token = req.query.token;
     var dbx = getDropboxToken(token);
@@ -62,26 +63,30 @@ app.get('/api/dropbox/getAccount', function(req, res) {
             res.json(response);
         })
         .catch(function(error) {
+            // TODO: Proper error handling
             console.error(error);
         });
 });
 
+// Return and array of files and folders
 app.get('/api/dropbox/getFilesAndFolders', function(req, res) {
     var token = req.query.token;
     var path = req.query.path || '';
     var dbx = getDropboxToken(token);
 
     dbx.filesListFolder({
-            path: path 
+            path: path
         })
         .then(function(response) {
             res.json(response.entries);
         })
         .catch(function(error) {
+            // TODO: Proper error handling
             console.error(error);
         });
 });
 
+// Authorize with dropbox
 app.get('/api/dropbox/auth', function(req, res) {
     var dbx = getDropboxAuth();
 
@@ -89,20 +94,27 @@ app.get('/api/dropbox/auth', function(req, res) {
     res.send(authUrl);
 });
 
+// Return usage statistics
 app.get('/api/dropbox/getUsage', function(req, res) {
-  var token = req.query.token;
-  var dbx = getDropboxToken(token);
+    var token = req.query.token;
+    var dbx = getDropboxToken(token);
 
-  dbx.usersGetSpaceUsage()
-    .then(function(response) {
-      res.json(response);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+    dbx.usersGetSpaceUsage()
+        .then(function(response) {
+            res.json(response);
+        })
+        .catch(function(error) {
+            // TODO: Proper error handling
+            console.log(error);
+        });
 });
 
-// Create an instance of Dropbox with the provided clientId
+/**
+ * Helper/Utility functions
+ * TODO: Move these functions to a separate js file
+ */
+
+// Create an instance of Dropbox with the CLIENT_ID variable
 function getDropboxAuth() {
     var dbx = new Dropbox({
         clientId: CLIENT_ID
